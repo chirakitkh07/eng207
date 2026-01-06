@@ -60,106 +60,92 @@ life.wongnai.com
 
 Availability
 
-แยกบริการย่อย → ถ้าบริการรีวิวล่ม ไม่จำเป็นต้องทำให้การสั่งอาหารล่มทั้งระบบ
+ แยกบริการย่อย → ถ้าบริการรีวิวล่ม ไม่จำเป็นต้องทำให้การสั่งอาหารล่มทั้งระบบ
 
-service mesh / resilience patterns ช่วยรับมือ network failure ในระบบ microservices ขนาดใหญ่ 
-Grab Tech
+ service mesh / resilience patterns ช่วยรับมือ network failure ในระบบ microservices ขนาดใหญ่ 
 
 Performance
 
-API Gateway ช่วย cache/aggregate บางหน้าที่เรียกหลายบริการ
+ API Gateway ช่วย cache/aggregate บางหน้าที่เรียกหลายบริการ
 
-Event-driven ลดการรอ synchronous call ในบาง workflow (เช่น ส่งแจ้งเตือน/อัปเดต analytics)
+ Event-driven ลดการรอ synchronous call ในบาง workflow (เช่น ส่งแจ้งเตือน/อัปเดต analytics)
 
 Scalability
 
-แต่ละ service scale ตามโหลด (เที่ยง: order/payment/dispatch หนัก)
+ แต่ละ service scale ตามโหลด (เที่ยง: order/payment/dispatch หนัก)
 
-ระบบ stream (Kafka) รองรับข้อมูลแบบ real-time และการต่อ service เพิ่มโดยไม่ต้องแก้ของเดิมมาก 
-Grab Tech
-+2
-Grab Tech
-+2
+ ระบบ stream (Kafka) รองรับข้อมูลแบบ real-time และการต่อ service เพิ่มโดยไม่ต้องแก้ของเดิมมาก 
 
 Reliability / Correctness ของสถานะออเดอร์
 
-ใช้ event log/stream เก็บเหตุการณ์ ทำให้ “ตามรอย” ได้ว่ามีอะไรเกิดขึ้นบ้าง
+ ใช้ event log/stream เก็บเหตุการณ์ ทำให้ “ตามรอย” ได้ว่ามีอะไรเกิดขึ้นบ้าง
 
-แต่ต้องออกแบบ idempotency / delivery guarantees ให้ดี (LINE MAN Wongnai มีบทความลงลึกเรื่อง message delivery guarantees) 
-life.wongnai.com
-+1
+ แต่ต้องออกแบบ idempotency / delivery guarantees ให้ดี (LINE MAN Wongnai มีบทความลงลึกเรื่อง message delivery guarantees) 
 
 Security & Privacy
 
-Gateway + Auth service แยกชัด, บังคับ policy/role ได้
+ Gateway + Auth service แยกชัด, บังคับ policy/role ได้
 
-ลดการให้บริการอื่น ๆ เข้าถึงข้อมูลอ่อนไหวโดยตรง
+ ลดการให้บริการอื่น ๆ เข้าถึงข้อมูลอ่อนไหวโดยตรง
 
 Observability
 
-ระบบใหญ่ต้องมี logging/monitoring/tracing และฝั่ง LINE MAN Wongnai มีการพูดถึงการทำ library ช่วยด้าน monitoring ใน microservices 
+ ระบบใหญ่ต้องมี logging/monitoring/tracing และฝั่ง LINE MAN Wongnai มีการพูดถึงการทำ library ช่วยด้าน monitoring ใน microservices 
 life.wongnai.com
 
 ## Trade-offs อะไรบ้าง?
 
-Scalability/Decoupling (EDA) vs Consistency
+1.Scalability/Decoupling (EDA) vs Consistency
 
-Event-driven มักนำไปสู่ eventual consistency (สถานะบางอย่างอัปเดตไม่พร้อมกันทุกหน้าจอ)
+ Event-driven มักนำไปสู่ eventual consistency (สถานะบางอย่างอัปเดตไม่พร้อมกันทุกหน้าจอ)
 
-ต้องลงทุนกับ outbox/idempotency/retry/ordering มากขึ้น 
-life.wongnai.com
-+1
+ ต้องลงทุนกับ outbox/idempotency/retry/ordering มากขึ้น 
 
-Microservices vs Complexity/Cost
+2.Microservices vs Complexity/Cost
 
-ได้ความยืดหยุ่น แต่แลกกับ:
+ ได้ความยืดหยุ่น แต่แลกกับ:
 
-การดูแลหลาย service
+ การดูแลหลาย service
 
-network latency
+ network latency
 
-ต้องมี tooling (gateway, service discovery, tracing, CI/CD)
+ ต้องมี tooling (gateway, service discovery, tracing, CI/CD)
 
-Grab ระบุภาพรวมว่า microservices ecosystem ใหญ่มาก และต้อง evolve โครงสร้างพื้นฐาน (เช่น service mesh) เพื่อรับความซับซ้อน 
-Grab Tech
+ Grab ระบุภาพรวมว่า microservices ecosystem ใหญ่มาก และต้อง evolve โครงสร้างพื้นฐาน (เช่น service mesh) เพื่อรับความซับซ้อน
 
-Performance vs Security
+3.Performance vs Security
 
-เพิ่มการตรวจสอบ/เข้ารหัส/ตรวจ fraud → หน่วงเพิ่ม
+ เพิ่มการตรวจสอบ/เข้ารหัส/ตรวจ fraud → หน่วงเพิ่ม
 
-ต้องเลือก “ความหน่วงที่ยอมรับได้” + วางจุดตรวจให้เหมาะ (gateway/critical path)
+ ต้องเลือก “ความหน่วงที่ยอมรับได้” + วางจุดตรวจให้เหมาะ (gateway/critical path)
 
 ## 4) Lessons Learned
 ## สิ่งที่เรียนรู้จากการวิเคราะห์
 
-Food delivery ไม่ใช่แค่ “สั่งอาหาร” แต่คือ distributed workflow หลายขั้นและหลายฝ่าย → event-driven + microservices จึงเหมาะ
+ Food delivery ไม่ใช่แค่ “สั่งอาหาร” แต่คือ distributed workflow หลายขั้นและหลายฝ่าย → event-driven + microservices จึงเหมาะ
 
-ระบบระดับ Grab/LINE MAN ต้องให้ความสำคัญกับ observability ไม่แพ้ feature เพราะปัญหามักเกิด “ข้าม service”
+ ระบบระดับ Grab/LINE MAN ต้องให้ความสำคัญกับ observability ไม่แพ้ feature เพราะปัญหามักเกิด “ข้าม service”
 
-เรื่องที่ดูเล็ก (retry, duplicate events, message ordering) กลายเป็นเรื่องใหญ่ใน production → ต้องออกแบบ reliability ตั้งแต่แรก 
-life.wongnai.com
-+2
-life.wongnai.com
-+2
+ เรื่องที่ดูเล็ก (retry, duplicate events, message ordering) กลายเป็นเรื่องใหญ่ใน production → ต้องออกแบบ reliability ตั้งแต่แรก 
 
 ## นำไปใช้กับโปรเจกต์ของทีมได้อย่างไร? (ฉบับนักศึกษา)
 
 สำหรับโปรเจกต์ Food Delivery ของทีมเธอ (ขนาดเล็กกว่า) แนะนำ “หยิบแก่น” มาใช้แบบไม่ซับซ้อนเกิน:
 
-เริ่มจาก Modular Monolith หรือ Microservices แบบ 4–6 services ก็พอ (Order, Payment, Delivery, Notification, User, Merchant)
+ เริ่มจาก Modular Monolith หรือ Microservices แบบ 4–6 services ก็พอ (Order, Payment, Delivery, Notification, User, Merchant)
 
-ทำ API Gateway (หรืออย่างน้อย BFF layer) เพื่อรวม auth + routing
+ ทำ API Gateway (หรืออย่างน้อย BFF layer) เพื่อรวม auth + routing
 
-ใช้ Event-driven แบบเบา ๆ:
+ ใช้ Event-driven แบบเบา ๆ:
 
-ในช่วงแรกอาจใช้ “event bus ภายใน” (เช่น message queue / หรือแม้แต่ DB outbox + worker) เพื่อส่ง OrderCreated, PaymentConfirmed ไปแจ้งเตือน/อัปเดตสถานะ
+ ในช่วงแรกอาจใช้ “event bus ภายใน” (เช่น message queue / หรือแม้แต่ DB outbox + worker) เพื่อส่ง OrderCreated, PaymentConfirmed ไปแจ้งเตือน/อัปเดตสถานะ
 
-วาง QAs วัดได้ ตั้งแต่เริ่ม เช่น
+ วาง QAs วัดได้ ตั้งแต่เริ่ม เช่น
 
-Create order < 2s (p95)
+ Create order < 2s (p95)
 
-Uptime 99.5% (งานนักศึกษา)
+ Uptime 99.5% (งานนักศึกษา)
 
-ส่ง notification ภายใน 5s หลัง payment confirmed
+ ส่ง notification ภายใน 5s หลัง payment confirmed
 
-ใส่ logging + trace id ตั้งแต่แรก จะช่วยตอนเดโม/แก้บั๊กมาก
+ ใส่ logging + trace id ตั้งแต่แรก จะช่วยตอนเดโม/แก้บั๊กมาก
