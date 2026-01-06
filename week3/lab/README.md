@@ -149,3 +149,8 @@ life.wongnai.com
  ส่ง notification ภายใน 5s หลัง payment confirmed
 
  ใส่ logging + trace id ตั้งแต่แรก จะช่วยตอนเดโม/แก้บั๊กมาก
+
+## แผนภาพ
+ ![](/eng207/week3/lab/images/kafka.png)
+
+ ![](eng207\week3\lab\images\monolith.png)
