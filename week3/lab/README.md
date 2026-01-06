@@ -151,6 +151,8 @@ life.wongnai.com
  ใส่ logging + trace id ตั้งแต่แรก จะช่วยตอนเดโม/แก้บั๊กมาก
 
 ## แผนภาพ
- ![1](/eng207/week3/lab/images/kafka.png)
+ ![1](../lab/images/kafka.png)
 
- ![2](eng207\week3\lab\images\monolith.png)
+ ![2](../lab/images/monolith.png)
+
+ 
